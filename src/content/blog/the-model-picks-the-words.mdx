@@ -1,0 +1,50 @@
+export const metadata = {
+  title: "The model picks the words, not the severity",
+  description:
+    "Design decisions behind KeepMe, my AI accountability coach, and why its most important logic isn't AI at all.",
+  date: "2026-09-29",
+  tags: ["AI", "FastAPI", "Supabase"],
+  cover: "The model picks the words",
+};
+
+KeepMe is an accountability coach. You tell it what you're committing to, it asks how the day went, checks your answer against what you actually promised, and tells you the truth about the pattern. It is deliberately not a journaling app: its job is accountability, not validation.
+
+Building it taught me that the interesting decisions in an "AI app" are mostly not about the AI.
+
+## Severity is computed, not generated
+
+KeepMe runs on free models through OpenRouter, and small models are unreliable at holding a tone. If the model decided how hard to push, the same missed week could get a gentle nudge one evening and a lecture the next.
+
+So the escalation level is calculated in plain Python from miss counts and the score trend, then passed into the prompt. **The model chooses the words, never the severity.** Every reply also goes through a safety filter before it is shown.
+
+There are three overrides, and each can only ever *lower* the level. The most important one: if a reflection reads as distress, the tone drops to its floor, whatever coaching style the person picked.
+
+## A missed day scores zero
+
+If a day had commitments and nothing was logged, it counts as zero in the chart and the average. Only a day with nothing owed goes unscored.
+
+Leaving bad days out would make the trend line measure only the days someone showed up, which flatters exactly the behaviour the product exists to name.
+
+## Row Level Security, even from Python
+
+The Next.js app never talks to a model and never holds a service key. Every AI call and every score happens in a FastAPI service.
+
+The shortcut would have been to give FastAPI Supabase's service-role key. That bypasses Row Level Security completely, so any bug in any handler could reach any row. Instead, FastAPI verifies the Supabase token itself and opens each request's transaction as the `authenticated` role with the caller's claims, so Postgres applies the same policies it would for a direct call from the app.
+
+The only elevated connection belongs to two scheduled jobs, and it uses a database role with exactly the privileges those jobs need, so a leaked connection string can't read anyone's journal.
+
+## A documented control isn't a real one
+
+Evening reflections are about as sensitive as text gets, and free model tiers have weaker data-retention terms than paid ones. The plan was a redaction pass that strips identifying details before any text leaves the server, plus an opt-out that stops text reaching a model at all.
+
+Both settings existed from phase 1. Neither was enforced until phase 9. For eight phases my own architecture doc described redaction as a mitigation, and it read exactly like one that worked.
+
+That's the lesson I'd pass on: until there's code and a test behind it, a security control in a document is only a wish.
+
+## The stack
+
+- **Web:** Next.js 16, React 19 and Tailwind 4, as an installable app with Web Push reminders
+- **API:** FastAPI on Python 3.12 with asyncpg
+- **Data:** Supabase Postgres, Auth, Row Level Security and pgvector
+- **AI:** OpenRouter's free tier, with per-user quotas, a global circuit breaker and a fallback chain of models
+- **Hosting:** Docker Compose and Caddy on one small server

@@ -1,0 +1,68 @@
+import type { ComponentType } from "react";
+import {
+  SiDocker,
+  SiDuckdb,
+  SiElectron,
+  SiFastapi,
+  SiGit,
+  SiGooglecolab,
+  SiJavascript,
+  SiJupyter,
+  SiLangchain,
+  SiMongodb,
+  SiNextdotjs,
+  SiNumpy,
+  SiOpenrouter,
+  SiPandas,
+  SiPayloadcms,
+  SiPostgresql,
+  SiPwa,
+  SiPython,
+  SiReact,
+  SiResend,
+  SiSqlite,
+  SiSupabase,
+  SiTailwindcss,
+  SiTypescript,
+  SiVercel,
+} from "react-icons/si";
+import { Circle, Cloud, Database, Drama, FileSearch, Layers, Zap } from "lucide-react";
+
+type Icon = ComponentType<{ className?: string }>;
+
+// Oracle, Playwright and Groq have no brand icon in react-icons, so they get a generic one.
+export const techIcons: Record<string, Icon> = {
+  TypeScript: SiTypescript,
+  JavaScript: SiJavascript,
+  Python: SiPython,
+  SQL: Database,
+  "Next.js": SiNextdotjs,
+  React: SiReact,
+  "Tailwind CSS": SiTailwindcss,
+  PWA: SiPwa,
+  FastAPI: SiFastapi,
+  Supabase: SiSupabase,
+  PostgreSQL: SiPostgresql,
+  MongoDB: SiMongodb,
+  SQLite: SiSqlite,
+  "Payload CMS": SiPayloadcms,
+  LangChain: SiLangchain,
+  RAG: FileSearch,
+  FAISS: Layers,
+  OpenRouter: SiOpenrouter,
+  Groq: Zap,
+  pandas: SiPandas,
+  NumPy: SiNumpy,
+  DuckDB: SiDuckdb,
+  Jupyter: SiJupyter,
+  "Google Colab": SiGooglecolab,
+  Git: SiGit,
+  Docker: SiDocker,
+  Vercel: SiVercel,
+  Electron: SiElectron,
+  Playwright: Drama,
+  "Oracle Cloud": Cloud,
+  Resend: SiResend,
+};
+
+export const FallbackIcon: Icon = Circle;

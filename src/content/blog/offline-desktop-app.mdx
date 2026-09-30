@@ -1,0 +1,52 @@
+export const metadata = {
+  title: "Building an offline desktop app for a water-delivery business",
+  description:
+    "Electron, SQLite and WhatsApp receipts: what I learned building software that has to work without the internet.",
+  date: "2026-09-28",
+  tags: ["Electron", "SQLite", "Client work"],
+  cover: "Offline first",
+};
+
+Aqua Aman delivers 19-litre water bottles. Their customer records lived in a spreadsheet, and a lot of the rest lived in people's heads. They needed software for customers, deliveries, payments, bottle stock and reports that runs on an ordinary Windows laptop, with or without internet.
+
+## Why a desktop app
+
+The laptop isn't always online, and the owner wanted the data on their own machine. So the app is Electron and React for the screens, with everything stored in a single SQLite file.
+
+Installing it means copying one `.exe` over USB, WhatsApp or Google Drive and double-clicking it. The trade-off: the installer isn't code-signed yet, so Windows shows a warning the first time.
+
+## Balances are never stored
+
+This is the most important rule in the codebase. A customer's balance is calculated from their history every time it's shown:
+
+```
+balance = opening balance + deliveries − paid on delivery − payments
+```
+
+A stored balance can drift away from the transactions behind it. A calculated one can't. Bottle deposits are kept in their own table, so they never count as sales or payments.
+
+## Protecting the data
+
+With no server, the customer's laptop *is* the database server, so the app has to take care of it:
+
+- **The data lives outside OneDrive on purpose.** Cloud sync can corrupt a database file while it's open.
+- **A backup runs automatically once a day.** The newest 30 are kept.
+- **Updates back up first.** Before an update changes the data layout, a copy is saved.
+- **Moving to a new laptop** is "Save a copy to USB" on the old one and "Restore" on the new one.
+- **The optional PIN is checked in Electron's main process**, not in the screens, so the interface can't skip it. A recovery code removes it if it's forgotten.
+
+## WhatsApp receipts
+
+Customers already live on WhatsApp, so that's where receipts go. The app connects as a linked WhatsApp device, queues messages in an outbox, and sends monthly or weekly statements on a schedule.
+
+## Importing the old spreadsheet
+
+Nobody wants to retype a customer list. The app reads the old spreadsheet into a review screen, so the owner can check every row before it's imported.
+
+## Reports
+
+Summaries, receivables ageing, profit and loss, and customer statements are all computed from the same history as the balances, so the numbers always agree with each other.
+
+## What I'd tell someone building the same
+
+An offline app moves the hard problems from the server onto the customer's laptop. Backups, upgrades and "what happens when they forget the PIN" aren't extras. They're the product.
