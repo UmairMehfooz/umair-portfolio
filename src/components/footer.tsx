@@ -20,15 +20,7 @@ export function Footer() {
           Designed & built by <span className="text-foreground">{site.name}</span>
         </p>
         <p className="mt-1">
-          © {new Date().getFullYear()} · Layout inspired by{" "}
-          <a
-            href="https://sahilcodex.vercel.app"
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-2 hover:text-foreground"
-          >
-            Sahil Singh
-          </a>
+          © {new Date().getFullYear()} · Layout inspired by Sahil Singh
         </p>
       </div>
       <div className="rule-t dot-grid h-20" />
