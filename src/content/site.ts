@@ -9,7 +9,7 @@ export const site = {
   description:
     "Umair Mehfooz — AI student at CUST and Machine Learning intern at FlyRank AI. I build full-stack products with Next.js, Supabase and Python, from online stores to AI agents.",
   // Replace with your custom domain once you have one.
-  url: "https://umair-portfolio.vercel.app",
+  url: "https://umair-portfolio-lemon.vercel.app",
   location: "Islamabad, PK",
   city: "Islamabad",
   timeZone: "Asia/Karachi",
