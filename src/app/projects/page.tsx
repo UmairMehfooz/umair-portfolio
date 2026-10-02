@@ -6,7 +6,9 @@ import { projects } from "@/content/projects";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Client work, personal projects and experiments by Umair Mehfooz.",
+  description:
+    "Projects by Umair Mehfooz: BidForge AI (RAG), KeepMe, client e-commerce stores and a desktop business app, built with Next.js, Supabase and Python.",
+  alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {

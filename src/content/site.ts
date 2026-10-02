@@ -6,8 +6,22 @@ export const site = {
   shortName: "UMAIR",
   initials: "UM",
   title: "ML Intern & Full-Stack Developer",
+  // Search-result snippet (~155 characters). Leads with the name so "Umair Mehfooz" and "Umair portfolio" match.
   description:
-    "Umair Mehfooz — AI student at CUST and Machine Learning intern at FlyRank AI. I build full-stack products with Next.js, Supabase and Python, from online stores to AI agents.",
+    "Portfolio of Umair Mehfooz, an AI student at CUST Islamabad and ML intern at FlyRank AI, building full-stack apps with Next.js, Supabase, Python and RAG.",
+  keywords: [
+    "Umair Mehfooz",
+    "Umair Mehfooz portfolio",
+    "Umair portfolio",
+    "Umair Mehfooz developer",
+    "full-stack developer Islamabad",
+    "Next.js developer Pakistan",
+    "machine learning intern",
+    "RAG developer",
+    "CUST artificial intelligence",
+  ],
+  // Google Search Console "HTML tag" verification code (just the content="..." value).
+  googleVerification: null as string | null,
   // Replace with your custom domain once you have one.
   url: "https://umairm-portfolio.vercel.app",
   location: "Islamabad, PK",

@@ -6,7 +6,8 @@ import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Resume",
-  description: `Resume of ${site.name}, ${site.title}.`,
+  description: `Resume of ${site.name}, ${site.title}: experience at FlyRank AI, client projects, skills and education.`,
+  alternates: { canonical: "/resume" },
 };
 
 export default function ResumePage() {

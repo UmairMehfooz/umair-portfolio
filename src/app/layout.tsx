@@ -20,20 +20,35 @@ const pixelify = Pixelify_Sans({
   subsets: ["latin"],
 });
 
+const xHandle = site.links.x ? `@${site.links.x.split("/").pop()}` : undefined;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | ${site.title}`,
+    default: `${site.name} | Portfolio · ${site.title}`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  keywords: site.keywords,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: `${site.name} | ${site.title}`,
+    title: `${site.name} | Portfolio`,
     description: site.description,
     url: site.url,
-    siteName: site.name,
-    type: "website",
+    siteName: `${site.name} Portfolio`,
+    locale: "en_US",
+    type: "profile",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | Portfolio`,
+    description: site.description,
+    creator: xHandle,
+  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+  ...(site.googleVerification && { verification: { google: site.googleVerification } }),
 };
 
 // Runs before first paint so a saved light theme never flashes dark. Dark is the default.

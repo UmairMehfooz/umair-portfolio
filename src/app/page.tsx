@@ -11,6 +11,7 @@ import { Hero } from "@/components/sections/hero";
 import { Projects } from "@/components/sections/projects";
 import { Services } from "@/components/sections/services";
 import { Stack } from "@/components/sections/stack";
+import { StructuredData } from "@/components/structured-data";
 import { getPosts } from "@/lib/blog";
 
 // Rebuild every 15 minutes so the GitHub graph and "Present" durations stay current.
@@ -21,6 +22,7 @@ export default async function Home() {
 
   return (
     <main>
+      <StructuredData />
       <Hero />
       <About />
       <Connect />

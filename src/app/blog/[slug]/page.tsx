@@ -12,7 +12,12 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const { metadata } = await loadPost(slug);
-  return { title: metadata.title, description: metadata.description };
+  return {
+    title: metadata.title,
+    description: metadata.description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: { type: "article", title: metadata.title, description: metadata.description, publishedTime: metadata.date },
+  };
 }
 
 export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
